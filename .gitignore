@@ -1,0 +1,5 @@
+.*
+!/web/.htaccess
+!/.gitignore
+config/app.ini
+vendor
