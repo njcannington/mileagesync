@@ -8,8 +8,5 @@ class ErrorController extends Controller
     public function indexAction()
     {
         $this->setView("error");
-        $text = "Error";
-
-        return compact("text");
     }
 }

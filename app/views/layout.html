@@ -12,10 +12,20 @@
   <body>
     <nav class="navbar navbar-light bg-light">
       <a class="navbar-brand" href="/">Home</a>
+      <?php if (!isset($_SESSION['username']) || empty($_SESSION['username'])): ?>
+      <a class="navbar-brand pull-right" href="/login">Login</a>
+      <a class="navbar-brand pull-right" href="/register">Register</a>
+      <?php endif; ?>
     </nav>
 
+
+    <?php if ($route->controller->getError()): ?>
+    <div class="alert alert-danger" role="alert"><?= $route->controller->getError(); ?></div>
+    <?php endif; ?>
+
+
     <div class="container">
-        <?php include_once($request->getView()); ?>
+        <?php include_once($route->controller->getView()); ?>
     </div>
 
   <body>
