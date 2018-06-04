@@ -8,8 +8,9 @@ class Route
 {
     protected $available_routes = [];
     protected $uri;
-    protected $controller;
+    public $controller;
     protected $action;
+
 
     public function __construct($uri)
     {
@@ -23,6 +24,35 @@ class Route
     */
 
     /*
+    * checks for session or redirects to login
+    */
+    public function getSession()
+    {
+        $session_exempt = ["/register", "/login", "/login/post"];
+
+        if (!in_array($this->uri, $session_exempt)) {
+            if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
+                header("location: /login");
+                exit;
+            }
+        }
+    }
+
+    /*
+    * sets the correct controller and returns the data based on the corresponding
+    * action set by the URI
+    */
+    public function submit()
+    {
+        $route = $this->getCurrentRoute($this->uri);
+        $controller = $route["controller"];
+        $action = $route["action"];
+
+        $this->controller = new $controller();
+        $this->data = $this->controller->$action();
+    }
+
+    /*
     * sets up uri to controller/action relationship
     */
     public function add($uri, $controller, $action)
@@ -34,36 +64,27 @@ class Route
     }
 
     /*
-    * traverses through the available routes property to
-    *  return corresponding route based associated
-    *  with the given $uri
-    */
-    public function set()
-    {
-        foreach ($this->available_routes as $route) {
-            if ($route["uri"] == $this->uri) {
-                $this->controller = $route["controller"];
-                $this->action = $route["action"];
-            }
-        }
-        if ($this->controller == null) {
-            $this->setError();
-        }
-    }
-
-    /*
     ***************************************
     *           PROTECTED METHODS
     ***************************************
     */
 
     /*
-    * sets controller and action to error page
+    * traverses through the available routes property to
+    *  return corresponding route based associated
+    *  with the given $uri
     */
-    protected function setError()
+    protected function getCurrentRoute()
     {
-        $this->controller = "App\Controllers\\ErrorController";
-        $this->action = "indexAction";
+        foreach ($this->available_routes as $route) {
+            if ($route["uri"] == $this->uri) {
+                return $route;
+            }
+        }
+        if ($this->controller == null) {
+            return ["controller" => "App\Controllers\\ErrorController",
+                    "action" => "indexAction"];
+        }
     }
 
     /*
@@ -72,19 +93,9 @@ class Route
     ***************************************
     */
 
-    public function getController()
-    {
-        return $this->controller;
-    }
 
-    public function getAction()
+    public function getData()
     {
-        return $this->action;
+        return $this->data;
     }
-
-    public function getView()
-    {
-        return $this->view;
-    }
-
 }
