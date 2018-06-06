@@ -11,16 +11,19 @@
   </head>
   <body>
     <nav class="navbar navbar-light bg-light">
+      <?php if (isset($_SESSION['username'])): ?>
       <a class="navbar-brand" href="/">Home</a>
+      <a class="navbar-brand pull-right" href="/logout">Logout</a>
+      <?php endif; ?>
+
       <?php if (!isset($_SESSION['username']) || empty($_SESSION['username'])): ?>
       <a class="navbar-brand pull-right" href="/login">Login</a>
       <a class="navbar-brand pull-right" href="/register">Register</a>
       <?php endif; ?>
     </nav>
 
-
     <?php if ($route->controller->getError()): ?>
-    <div class="alert alert-danger" role="alert"><?= $route->controller->getError(); ?></div>
+    <div class="alert alert-danger text-center" role="alert"><?= $route->controller->getError(); ?></div>
     <?php endif; ?>
 
 

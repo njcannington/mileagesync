@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use Lib\Controller;
 use App\Models\Login;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -15,13 +16,16 @@ class LoginController extends Controller
     {
         $uname = trim($_POST["uname"]);
         $pass = trim($_POST["pass"]);
-        $login = new Login($uname, $pass);
-        if ($login->isSuccesful()) {
-            $this->startSession();
-            $this->redirect("/");
-        } else {
-            $error = $login->getError() ?? "There was a problem with login.";
-            $_SESSION["error"] = $error;
+
+        try {
+            $user = new User();
+            $user->fetchByUsername($uname);
+            if ($user->hasPassword($pass)) {
+                $user->login();
+                $this->redirect("/");
+            }
+        } catch (\Exception $e) {
+            $this->setError($e->getMessage());
             $this->redirect("/login");
         }
     }

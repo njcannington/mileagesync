@@ -13,9 +13,15 @@ $uri = $_GET["uri"] ?? '';
 //////////////////////////
 $route = new Route($uri);
 $route->add("/", "index", "index");
+
 $route->add("/login", "login", "index");
-$route->add("/register", "register", "index");
 $route->add("/login/post", "login", "post");
+
+$route->add("/logout", "logout", "index");
+
+$route->add("/register", "register", "index");
+$route->add("/register/post", "register", "post");
+
 $route->add("/calendar", "calendar", "index");
 //////////////////////////
 

@@ -28,7 +28,7 @@ class Route
     */
     public function getSession()
     {
-        $session_exempt = ["/register", "/login", "/login/post"];
+        $session_exempt = ["/register", "/login", "/login/post", "/register/post"];
 
         if (!in_array($this->uri, $session_exempt)) {
             if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {

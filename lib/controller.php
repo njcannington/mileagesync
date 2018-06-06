@@ -1,6 +1,8 @@
 <?php
 namespace Lib;
 
+use App\Models\User;
+
 /**
  * base class for all controllers
  */
@@ -9,9 +11,16 @@ class Controller
 {
     protected $view;
     protected $error;
+    protected $current_user;
 
     public function __construct()
     {
+        if (isset($_SESSION["username"])) {
+            $user = new User();
+            $user->fetchByUsername($_SESSION["username"]);
+            $this->current_user = $user;
+        }
+
         if (isset($_SESSION["error"])) {
             $this->error = $_SESSION["error"];
             unset($_SESSION["error"]);
@@ -38,8 +47,7 @@ class Controller
     */
     protected function setError($error)
     {
-        echo $error;
-        $this->error = $error;
+        $_SESSION["error"] = $error;
     }
 
     /*
