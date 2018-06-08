@@ -23,6 +23,14 @@ class Model
     ***************************************
     */
 
+    /*
+    * empty function to be used for models
+    *   that aren't associated with a table
+    */
+    protected function setup()
+    {
+    }
+
     protected function hasTable($table)
     {
         $this->table = $table;
@@ -72,5 +80,19 @@ class Model
         foreach ($this->column as $column_name => $val) {
             $this->column[$column_name] = $record[$column_name];
         }
+    }
+
+    /*
+    * method used to fetchall data from a table
+    *    record given a column and a value
+    */
+    protected function find($value, $column = "id")
+    {
+        return $this->record->fetchAll([$column => $value]);
+    }
+
+    public function isSet()
+    {
+        return isset($this->column["id"]);
     }
 }

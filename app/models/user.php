@@ -70,6 +70,12 @@ class User extends Model
         session_destroy();
     }
 
+    public function hasCalendar()
+    {
+    }
+
+    public function hasCalDav();
+
     /*
     ***************************************
     *      PROTECTED FUNCTIONS

@@ -22,7 +22,8 @@ $route->add("/logout", "logout", "index");
 $route->add("/register", "register", "index");
 $route->add("/register/post", "register", "post");
 
-$route->add("/calendar", "calendar", "index");
+$route->add("/settings", "settings", "index");
+$route->add("/settings/post", "settings", "post");
 //////////////////////////
 
 $route->getSession();

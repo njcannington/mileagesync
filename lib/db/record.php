@@ -1,6 +1,8 @@
 <?php
 namespace Lib\Db;
 
+use Lib\Db;
+
 /**
  * Accesses records within Database
  */
@@ -11,7 +13,7 @@ class Record
 
     public function __construct($table)
     {
-        $this->db = \Lib\Db::getInstance();
+        $this->db = Db::getInstance();
         $this->table = $table;
     }
 

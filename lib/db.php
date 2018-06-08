@@ -1,5 +1,5 @@
 <?php
-namespace Lib\Db;
+namespace Lib;
 
 use Lib\Config;
 use \PDO;
